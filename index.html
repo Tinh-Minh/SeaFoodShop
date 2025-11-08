@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SeaFood Store - Hải sản tươi sống</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Thư viện icon Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <script>
+    // Hiển thị giờ Việt Nam tự động
+    function updateTime() {
+      const now = new Date();
+      const options = {
+        timeZone: "Asia/Ho_Chi_Minh",
+        hour: "2-digit", minute: "2-digit", second: "2-digit",
+        day: "2-digit", month: "2-digit", year: "numeric"
+      };
+      document.getElementById("clock").innerText =
+        now.toLocaleString("vi-VN", options);
+    }
+    setInterval(updateTime, 1000);
+  </script>
+</head>
+<body onload="updateTime()">
+  <header>
+    <div class="logo">🐟 SEAFOOD SHOP</div>
+    <div class="slogan">Tươi mỗi ngày - Giao liền tay!</div>
+  </header>
+
+  <main>
+    <section class="product">
+      <img src="https://i.imgur.com/nQqzCqB.jpg" alt="Tôm sú">
+      <div class="info">
+        <h2>Tôm Sú Tươi</h2>
+        <p>Tôm sú được đánh bắt tự nhiên, thịt săn chắc, ngọt và giàu dinh dưỡng. 
+        Rất thích hợp cho các món nướng, hấp, lẩu hoặc sashimi.</p>
+        <p><b>Giá:</b> 450.000đ/kg</p>
+        <p><b>Xuất xứ:</b> Cà Mau</p>
+      </div>
+    </section>
+
+    <section class="product">
+      <img src="https://i.imgur.com/hN9wojR.jpg" alt="Mực ống">
+      <div class="info">
+        <h2>Mực Ống Biển</h2>
+        <p>Mực ống được đánh bắt từ vùng biển Nha Trang, thân mực to, thịt giòn, ngọt tự nhiên.
+        Dùng để chiên, nướng hoặc xào đều tuyệt hảo.</p>
+        <p><b>Giá:</b> 280.000đ/kg</p>
+        <p><b>Xuất xứ:</b> Nha Trang</p>
+      </div>
+    </section>
+
+    <section class="product">
+      <img src="https://i.imgur.com/hK0SPQa.jpg" alt="Cua gạch Cà Mau">
+      <div class="info">
+        <h2>Cua Gạch Cà Mau</h2>
+        <p>Cua gạch vàng tươi, thịt chắc, thơm ngon. Chuyên dùng cho các món hấp bia, rang me,
+        hoặc nướng mọi. Đảm bảo 100% hàng sống khi giao.</p>
+        <p><b>Giá:</b> 550.000đ/kg</p>
+        <p><b>Xuất xứ:</b> Cà Mau</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="contact">
+      <p><b>Địa chỉ:</b> 123 Đường Biển Đông, Quận 7, TP. Hồ Chí Minh</p>
+      <p><b>Contact us:</b><br>0000000000</br></p>
+      <div class="social-icons">
+        <p><b>Zalo:</b></p>
+        <a href="https://zalo.me/0909888777" target="_blank" class="zalo" title="Zalo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo">
+        </a>
+        <p><b>FaceBook:</b></p>
+        <a href="https://facebook.com/seafoodshop" target="_blank" class="facebook" title="Facebook">
+          <i class="fa-brands fa-facebook"></i>
+        </a>
+        <p><b>Messenger:</b></p>
+        <a href="https://m.me/seafoodshop" target="_blank" class="messenger" title="Messenger">
+          <i class="fa-brands fa-facebook-messenger"></i>
+        </a>
+      </div>
+    </div>
+    <div id="clock"></div>
+  </footer>
+</body>
+</html>
