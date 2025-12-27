@@ -1,90 +1,1233 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SeaFood Store - Hải sản tươi sống</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hải Sản Tươi Ngon - Chất Lượng Cao</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- Thư viện icon Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f9fc;
+            margin: 0;
+            padding-left: 250px;
+        }
 
-  <script>
-    // Hiển thị giờ Việt Nam tự động
-    function updateTime() {
-      const now = new Date();
-      const options = {
-        timeZone: "Asia/Ho_Chi_Minh",
-        hour: "2-digit", minute: "2-digit", second: "2-digit",
-        day: "2-digit", month: "2-digit", year: "numeric"
-      };
-      document.getElementById("clock").innerText =
-        now.toLocaleString("vi-VN", options);
-    }
-    setInterval(updateTime, 1000);
-  </script>
+        /* Sidebar Menu */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(180deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .logo {
+            color: sandybrown;
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 20px;
+            margin-bottom: 3rem;
+        }
+
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+            display: block;
+            padding: 1rem 2rem;
+            border-left: 4px solid transparent;
+        }
+
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: #ffd700;
+            padding-left: 2.5rem;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(rgba(30, 60, 114, 0.8), rgba(42, 82, 152, 0.8)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><rect fill="%231e3c72" width="1200" height="400"/><path fill="%232a5298" opacity="0.3" d="M0,200 Q300,150 600,200 T1200,200 L1200,400 L0,400 Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px 20px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s;
+        }
+
+        /* Carousel */
+        .carousel-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+        }
+
+        .carousel-slide:nth-child(1) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .carousel-slide:nth-child(2) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .carousel-slide:nth-child(3) {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .carousel-slide:nth-child(4) {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .carousel-slide:nth-child(5) {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .indicator.active {
+            background: white;
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Promotion Banner */
+        .promo-banner {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: pulse 2s infinite;
+        }
+
+        .promo-banner h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            animation: bounce 1s infinite;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-desc {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .original-price {
+            color: #999;
+            text-decoration: line-through;
+            font-size: 1rem;
+        }
+
+        .current-price {
+            color: #ff6b6b;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .view-detail {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .view-detail:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.4);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideDown 0.4s;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .close {
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            line-height: 1;
+        }
+
+        .close:hover {
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-product-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-product-image img {
+            width: 400px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            animation: bounce 1s;
+        }
+
+        .modal-price-section {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .modal-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .modal-original-price {
+            font-size: 1.2rem;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .modal-current-price {
+            font-size: 2rem;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .discount-info {
+            background: white;
+            border-left: 4px solid #ff6b6b;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .discount-info h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .discount-tier {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .discount-tier:hover {
+            transform: translateX(5px);
+            background: #e9ecef;
+        }
+
+        .discount-tier:last-child {
+            margin-bottom: 0;
+        }
+
+        .tier-condition {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .tier-discount {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .product-description {
+            margin-bottom: 20px;
+        }
+
+        .product-description h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+
+        .product-description p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .add-to-cart-modal {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .add-to-cart-modal:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Features Section */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+        }
+
+        .feature-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .feature-card h3 {
+            color: #1e3c72;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #1e3c72;
+            color: white;
+            padding: 40px 20px 20px;
+            margin-top: -30px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding-left: 0;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .logo {
+                margin-bottom: 1rem;
+            }
+
+            nav ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                flex: 0 0 50%;
+            }
+
+            nav a {
+                padding: 0.8rem 1rem;
+                text-align: center;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+
+            nav a:hover {
+                padding-left: 1rem;
+                border-bottom-color: #ffd700;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .carousel-container {
+                height: 200px;
+            }
+        }
+    </style>
 </head>
-<body onload="updateTime()">
-  <header>
-    <div class="logo">🐟 SEAFOOD SHOP</div>
-    <div class="slogan">Tươi mỗi ngày - Giao liền tay!</div>
-  </header>
 
-  <main>
-    <section class="product">
-      <img src="https://i.imgur.com/nQqzCqB.jpg" alt="Tôm sú">
-      <div class="info">
-        <h2>Tôm Sú Tươi</h2>
-        <p>Tôm sú được đánh bắt tự nhiên, thịt săn chắc, ngọt và giàu dinh dưỡng. 
-        Rất thích hợp cho các món nướng, hấp, lẩu hoặc sashimi.</p>
-        <p><b>Giá:</b> 450.000đ/kg</p>
-        <p><b>Xuất xứ:</b> Cà Mau</p>
-      </div>
+<body>
+    <!-- Sidebar Menu -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="img/logo.jpg" alt="Logo" class="logo-img">
+            Boss King
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home">🏠 Trang Chủ</a></li>
+                <li><a href="#products">🛍️ Sản Phẩm</a></li>
+                <li><a href="#about">ℹ️ Giới Thiệu</a></li>
+                <li><a href="#contact">📞 Liên Hệ</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>🦀 Hải Sản Tươi Ngon Mỗi Ngày</h1>
+        <p>Chất lượng cao - Giá cả hợp lý - Giao hàng nhanh chóng</p>
+
+        <!-- Carousel -->
+        <div class="carousel-container">
+            <div class="carousel-slide active">
+                <img src="img/camudo899k.jpg" alt="Cá Mú Đỏ">
+            </div>
+            <div class="carousel-slide">
+                <img src="img/camu.png" alt="Cá Mú">
+            </div>
+            <div class="carousel-slide">
+                <img src="img/ghe699k.png" alt="Ghẹ">
+            </div>
+            <div class="carousel-slide">
+                <img src="img/tomalaskanho1tr5.jpg" alt="Tôm Alaska">
+            </div>
+            <div class="carousel-slide">
+                <img src="img/cuanau.png" alt="Cua Nâu">
+            </div>
+            <div class="carousel-indicators">
+                <div class="indicator active" onclick="goToSlide(0)"></div>
+                <div class="indicator" onclick="goToSlide(1)"></div>
+                <div class="indicator" onclick="goToSlide(2)"></div>
+                <div class="indicator" onclick="goToSlide(3)"></div>
+                <div class="indicator" onclick="goToSlide(4)"></div>
+            </div>
+        </div>
     </section>
 
-    <section class="product">
-      <img src="https://i.imgur.com/hN9wojR.jpg" alt="Mực ống">
-      <div class="info">
-        <h2>Mực Ống Biển</h2>
-        <p>Mực ống được đánh bắt từ vùng biển Nha Trang, thân mực to, thịt giòn, ngọt tự nhiên.
-        Dùng để chiên, nướng hoặc xào đều tuyệt hảo.</p>
-        <p><b>Giá:</b> 280.000đ/kg</p>
-        <p><b>Xuất xứ:</b> Nha Trang</p>
-      </div>
-    </section>
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Promotion Banner -->
+        <div class="promo-banner">
+            <h3>🎉 KHUYẾN MÃI ĐẶC BIỆT!</h3>
+            <p>Giảm giá đến 30% cho tất cả sản phẩm - Thời gian có hạn!</p>
+        </div>
 
-    <section class="product">
-      <img src="https://i.imgur.com/hK0SPQa.jpg" alt="Cua gạch Cà Mau">
-      <div class="info">
-        <h2>Cua Gạch Cà Mau</h2>
-        <p>Cua gạch vàng tươi, thịt chắc, thơm ngon. Chuyên dùng cho các món hấp bia, rang me,
-        hoặc nướng mọi. Đảm bảo 100% hàng sống khi giao.</p>
-        <p><b>Giá:</b> 550.000đ/kg</p>
-        <p><b>Xuất xứ:</b> Cà Mau</p>
-      </div>
-    </section>
-  </main>
+        <!-- Section Title -->
+        <div class="section-title" id="products">
+            <h2>DANH SÁCH THỰC ĐƠN</h2>
+            <p>Hải sản tươi sống được chọn lọc kỹ càng</p>
+        </div>
 
-  <footer>
-    <div class="contact">
-      <p><b>Địa chỉ:</b> 123 Đường Biển Đông, Quận 7, TP. Hồ Chí Minh</p>
-      <p><b>Contact us:</b><br>0000000000</br></p>
-      <div class="social-icons">
-        <p><b>Zalo:</b></p>
-        <a href="https://zalo.me/0909888777" target="_blank" class="zalo" title="Zalo">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Icon_of_Zalo.svg" alt="Zalo">
-        </a>
-        <p><b>FaceBook:</b></p>
-        <a href="https://facebook.com/seafoodshop" target="_blank" class="facebook" title="Facebook">
-          <i class="fa-brands fa-facebook"></i>
-        </a>
-        <p><b>Messenger:</b></p>
-        <a href="https://m.me/seafoodshop" target="_blank" class="messenger" title="Messenger">
-          <i class="fa-brands fa-facebook-messenger"></i>
-        </a>
-      </div>
+        <!-- Product Grid -->
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="img/tomalaskalon1tr6.jpg" alt="Tôm Hùm Alaska">
+                </div>
+                <span class="discount-badge">-25%</span>
+                <div class="product-info">
+                    <h3 class="product-name">Tôm Hùm Alaska</h3>
+                    <p class="product-desc">Tôm hùm tươi sống, thịt chắc ngọt, size lớn</p>
+                    <div class="price-container">
+                        <span class="original-price">800.000đ/kg</span>
+                        <span class="current-price">600.000đ/kg</span>
+                    </div>
+                    <button class="view-detail" onclick="showProductDetail('tomhum')">Xem Chi Tiết</button>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="img/cuahoangde.jpg" alt="Cua Hoàng Đế">
+                </div>
+                <span class="discount-badge">-30%</span>
+                <div class="product-info">
+                    <h3 class="product-name">Cua Hoàng Đế</h3>
+                    <p class="product-desc">Cua biển cao cấp, thịt ngon ngọt béo</p>
+                    <div class="price-container">
+                        <span class="original-price">1.200.000đ/kg</span>
+                        <span class="current-price">840.000đ/kg</span>
+                    </div>
+                    <button class="view-detail" onclick="showProductDetail('cua')">Xem Chi Tiết</button>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="img/tomalaskanho1tr5.jpg" alt="Tôm Hùm Alaska nhỏ">
+                </div>
+                <span class="discount-badge">-20%</span>
+                <div class="product-info">
+                    <h3 class="product-name">Tôm Hùm Alaska nhỏ</h3>
+                    <p class="product-desc">Tôm hùm Canada đen, thịt ngọt đậm đà</p>
+                    <div class="price-container">
+                        <span class="original-price">950.000đ/kg</span>
+                        <span class="current-price">760.000đ/kg</span>
+                    </div>
+                    <button class="view-detail" onclick="showProductDetail('tomsu')">Xem Chi Tiết</button>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="img/cuanau.png" alt="Cua Nâu">
+                </div>
+                <span class="discount-badge">-15%</span>
+                <div class="product-info">
+                    <h3 class="product-name">Cua Nâu</h3>
+                    <p class="product-desc">Cua gạch tươi, đầy thịt và gạch béo</p>
+                    <div class="price-container">
+                        <span class="original-price">400.000đ/kg</span>
+                        <span class="current-price">340.000đ/kg</span>
+                    </div>
+                    <button class="view-detail" onclick="showProductDetail('muc')">Xem Chi Tiết</button>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="img/camu.png" alt="Cá Mú">
+                </div>
+                <span class="discount-badge">-18%</span>
+                <div class="product-info">
+                    <h3 class="product-name">Cá Mú</h3>
+                    <p class="product-desc">Cá hồng cao cấp, thịt chắc ngọt tươi</p>
+                    <div class="price-container">
+                        <span class="original-price">380.000đ/kg</span>
+                        <span class="current-price">311.600đ/kg</span>
+                    </div>
+                    <button class="view-detail" onclick="showProductDetail('cahoi')">Xem Chi Tiết</button>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="img/camudo899k.jpg" alt="Cá Mú Đỏ">
+                </div>
+                <span class="discount-badge">-22%</span>
+                <div class="product-info">
+                    <h3 class="product-name">Cá Mú Đỏ</h3>
+                    <p class="product-desc">Cá Mú Đỏ tươi sống, thịt ngọt đầy gạch</p>
+                    <div class="price-container">
+                        <span class="original-price">280.000đ/kg</span>
+                        <span class="current-price">218.400đ/kg</span>
+                    </div>
+                    <button class="view-detail" onclick="showProductDetail('hau')">Xem Chi Tiết</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="features" id="about">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/709/709790.png" alt="Giao Hàng">
+                </div>
+                <h3>Giao Hàng Nhanh</h3>
+                <p>Giao hàng trong 2h tại nội thành, đảm bảo độ tươi ngon</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/7656/7656139.png" alt="Chất Lượng">
+                </div>
+                <h3>Chất Lượng Cao</h3>
+                <p>100% hải sản tươi sống, được kiểm tra nghiêm ngặt</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2037/2037440.png" alt="Giá Tốt">
+                </div>
+                <h3>Giá Tốt Nhất</h3>
+                <p>Cam kết giá cả cạnh tranh nhất thị trường</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3176/3176366.png" alt="Ưu Đãi">
+                </div>
+                <h3>Ưu Đãi Hấp Dẫn</h3>
+                <p>Nhiều chương trình khuyến mãi đặc biệt</p>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="section-title" id="contact" style="margin-top: 4rem;">
+            <h2>Liên Hệ Với Chúng Tôi</h2>
+            <p>Chúng tôi luôn sẵn sàng phục vụ bạn</p>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/126/126341.png" alt="Hotline">
+                </div>
+                <h3>Hotline</h3>
+                <a>
+                    1900-xxxx
+                    <p><a href="tel:1900xxxx" target="_blank"
+                        style="color: blue; text-decoration: none; font-weight: bold;">Nhấn Để Gọi Ngay</a></p>
+                </a>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="https://emsang.vn/wp-content/uploads/2023/02/zalo-2.png" alt="Zalo">
+                </div>
+                <h3>Zalo</h3>
+                <p>Phản hồi nhanh chóng<br />
+                <p><a href="https://zalo.me/0123456789" target="_blank"
+                        style="color: blue; text-decoration: none; font-weight: bold;">Chat ngay</a></p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/732/732200.png" alt="Email">
+                </div>
+                <h3>Email</h3>
+                <p>
+                    minhkinoto@gmail.com<br />
+                    <a style="text-decoration: none; color: blue; font-weight: bold;" href="mailto:minhkinoto@gmail.com"
+                        class="email-link">
+                        Gửi email ngay
+                    </a>
+
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="https://cdn.pixabay.com/photo/2021/06/15/12/51/facebook-6338509_1280.png" alt="Địa Chỉ">
+                </div>
+                <h3>Facebook</h3>
+                <p>Hải Sản Boss King<br />
+                <p><a href="https://www.facebook.com/login.php/" target="_blank"
+                        style="color: blue; text-decoration: none; font-weight: bold;">Chat ngay</a></p>
+                </p>
+            </div>
+        </div>
+
+        <!-- QR Code Section -->
+        <div
+            style="text-align: center; margin: 3rem 0; padding: 2rem; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            <h3 style="color: #1e3c72; margin-bottom: 1rem;">Quét Mã QR Để Đặt Hàng Nhanh</h3>
+            <img src="img/maqr.png" alt="QR Code" style="width: 200px; height: 200px; margin: 0 auto; display: block;">
+            <p style="color: #666; margin-top: 1rem;">Quét mã để kết nối với chúng tôi trên Zalo</p>
+        </div>
     </div>
-    <div id="clock"></div>
-  </footer>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Chi Tiết Sản Phẩm</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-product-image" id="modalIcon"></div>
+
+                <div class="modal-price-section">
+                    <div class="modal-price-row">
+                        <span class="modal-original-price" id="modalOriginalPrice"></span>
+                        <span class="modal-current-price" id="modalCurrentPrice"></span>
+                    </div>
+                </div>
+
+                <div class="product-description">
+                    <h3>Mô tả sản phẩm</h3>
+                    <p id="modalDescription"></p>
+                </div>
+
+                <div class="discount-info">
+                    <h3>🎁 Chương Trình Giảm Giá Đặc Biệt</h3>
+                    <div id="discountTiers"></div>
+                </div>
+
+                <a href="https://zalo.me/0123456789" target="_blank" class="add-to-cart-modal" id="contactButton">
+                    📞 Liên Hệ Để Đặt Ngay
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Về Chúng Tôi</h3>
+                <p>Chuyên cung cấp hải sản tươi sống chất lượng cao với giá cả hợp lý nhất.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Liên Kết</h3>
+                <ul>
+                    <li>Chính sách bảo mật</li>
+                    <li>Điều khoản sử dụng</li>
+                    <li>Hướng dẫn mua hàng</li>
+                    <li>Chính sách đổi trả</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Liên Hệ</h3>
+                <ul>
+                    <li>📞 Hotline: 1900-xxxx</li>
+                    <li>📧 Email: info@haisantuoi.vn</li>
+                    <li>📍 Địa chỉ: 123 Đường ABC, Q.1, TP.HCM</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Giờ Làm Việc</h3>
+                <ul>
+                    <li>Thứ 2 - Thứ 7: 7:00 - 21:00</li>
+                    <li>Chủ Nhật: 7:00 - 20:00</li>
+                    <li>Giao hàng 24/7</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Hải Sản Tươi. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Carousel functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            // Remove active class from all slides and indicators
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+
+            // Add active class to current slide and indicator
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            showSlide(currentSlide);
+        }
+
+        // Auto-advance carousel every 3 seconds
+        setInterval(nextSlide, 3000);
+
+        // Product data
+        const products = {
+            tomhum: {
+                name: 'Tôm Hùm Alaska',
+                image: 'img/tomalaskalon1tr6.jpg',
+                originalPrice: '800.000đ/kg',
+                currentPrice: '600.000đ/kg',
+                description: 'Tôm hùm Alaska tươi sống, được nhập khẩu trực tiếp từ vùng biển lạnh Alaska. Thịt tôm chắc nịch, ngọt tự nhiên, giàu protein và omega-3. Size lớn, trọng lượng từ 500g - 1kg/con. Thích hợp cho các món nướng, hấp, hoặc làm sashimi.',
+                discounts: [
+                    { condition: 'Mua từ 2 con trở lên', discount: 'Giảm thêm 5%' },
+                    { condition: 'Mua từ 3kg trở lên', discount: 'Giảm thêm 10%' },
+                    { condition: 'Mua từ 5kg trở lên', discount: 'Giảm thêm 15%' }
+                ]
+            },
+            cua: {
+                name: 'Cua Hoàng Đế',
+                image: 'img/cuahoangde.jpg',
+                originalPrice: '1.200.000đ/kg',
+                currentPrice: '840.000đ/kg',
+                description: 'Cua Hoàng Đế từ biển sâu, nổi tiếng với thịt ngọt béo đặc trưng. Mỗi con cua nặng từ 1-2kg, chân dài thịt chắc. Giàu vitamin B12, kẽm và selenium. Thích hợp chế biến hấp, nướng hoặc lẩu.',
+                discounts: [
+                    { condition: 'Mua từ 2 con trở lên', discount: 'Giảm thêm 8%' },
+                    { condition: 'Mua từ 3 con trở lên', discount: 'Giảm thêm 12%' },
+                    { condition: 'Mua từ 5kg trở lên', discount: 'Giảm thêm 18%' }
+                ]
+            },
+            tomsu: {
+                name: 'Tôm Hùm Alsaka Nhỏ',
+                image: 'img/tomalaskanho1tr5.jpg',
+                originalPrice: '950.000đ/kg',
+                currentPrice: '760.000đ/kg',
+                description: 'Tôm hùm Canada (Boston Lobster) tươi sống, màu đen đặc trưng. Thịt tôm chắc, ngọt đậm đà hơn tôm hùm thường. Giàu protein và ít béo. Size đại từ 600g - 1.2kg/con. Phù hợp để hấp, nướng bơ tỏi, hoặc làm món Thermidor.',
+                discounts: [
+                    { condition: 'Mua từ 2 con trở lên', discount: 'Giảm thêm 5%' },
+                    { condition: 'Mua từ 3kg trở lên', discount: 'Giảm thêm 8%' },
+                    { condition: 'Mua từ 5kg trở lên', discount: 'Giảm thêm 12%' }
+                ]
+            },
+            muc: {
+                name: 'Cua Nâu',
+                image: 'img/cuanau.png',
+                originalPrice: '400.000đ/kg',
+                currentPrice: '340.000đ/kg',
+                description: 'Cua gạch biển tươi sống, thịt trắng ngọt, gạch béo đậm đà. Size vừa từ 300-500g/con, đầy thịt và gạch. Giàu protein, canxi và các khoáng chất. Thích hợp để hấp, nấu lẩu hoặc rang me.',
+                discounts: [
+                    { condition: 'Mua từ 3kg trở lên', discount: 'Giảm thêm 6%' },
+                    { condition: 'Mua từ 5kg trở lên', discount: 'Giảm thêm 10%' },
+                    { condition: 'Mua từ 10kg trở lên', discount: 'Giảm thêm 15%' }
+                ]
+            },
+            cahoi: {
+                name: 'Cá Mú',
+                image: 'img/camu.png',
+                originalPrice: '380.000đ/kg',
+                currentPrice: '311.600đ/kg',
+                description: 'Cá mú tươi sống, thịt trắng chắc, ngọt tự nhiên. Đánh bắt tươi sống từ biển sâu. Size từ 1-2kg/con. Giàu protein, ít béo, nhiều DHA tốt cho não bộ. Thích hợp cho món hấp, nướng, chiên hoặc lẩu.',
+                discounts: [
+                    { condition: 'Mua từ 2kg trở lên', discount: 'Giảm thêm 5%' },
+                    { condition: 'Mua từ 3kg trở lên', discount: 'Giảm thêm 8%' },
+                    { condition: 'Mua từ 5kg trở lên', discount: 'Giảm thêm 12%' }
+                ]
+            },
+            hau: {
+                name: 'Cá Mú Đỏ',
+                image: 'img/camudo899k.jpg',
+                originalPrice: '280.000đ/kg',
+                currentPrice: '218.400đ/kg',
+                description: 'Cá mú đỏ tươi sống, màu đỏ tự nhiên đặc trưng. Thịt ngọt, gạch béo đậm đà. Size vừa từ 250-400g/con. Giàu protein, kẽm và omega-3. Phù hợp để hấp, nấu bún riêu, lẩu hoặc nướng.',
+                discounts: [
+                    { condition: 'Mua từ 2kg trở lên', discount: 'Giảm thêm 7%' },
+                    { condition: 'Mua từ 3kg trở lên', discount: 'Giảm thêm 10%' },
+                    { condition: 'Mua từ 5kg trở lên', discount: 'Giảm thêm 15%' }
+                ]
+            }
+        };
+
+        let currentProduct = null;
+
+        // Show product detail modal
+        function showProductDetail(productId) {
+            const product = products[productId];
+            if (!product) return;
+
+            currentProduct = product;
+
+            // Update modal content
+            document.getElementById('modalTitle').textContent = product.name;
+            document.getElementById('modalIcon').innerHTML = `<img src="${product.image}" alt="${product.name}">`;
+            document.getElementById('modalOriginalPrice').textContent = 'Giá gốc: ' + product.originalPrice;
+            document.getElementById('modalCurrentPrice').textContent = product.currentPrice;
+            document.getElementById('modalDescription').textContent = product.description;
+
+            // Build discount tiers
+            const discountTiersHTML = product.discounts.map(tier => `
+                <div class="discount-tier">
+                    <span class="tier-condition">${tier.condition}</span>
+                    <span class="tier-discount">${tier.discount}</span>
+                </div>
+            `).join('');
+            document.getElementById('discountTiers').innerHTML = discountTiersHTML;
+
+            // Show modal
+            document.getElementById('productModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('productModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('productModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Close modal with ESC key
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Add scroll animation to product cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
 </body>
+
 </html>
